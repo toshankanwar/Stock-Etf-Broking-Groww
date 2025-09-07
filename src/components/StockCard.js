@@ -4,9 +4,12 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
+
+const { width } = Dimensions.get('window');
 
 const StockCard = ({ stock, onPress, showWatchlistIcon = false, isInWatchlist = false }) => {
   const { theme } = useTheme();
@@ -25,37 +28,66 @@ const StockCard = ({ stock, onPress, showWatchlistIcon = false, isInWatchlist = 
     return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
   };
 
+  const formatVolume = (volume) => {
+    const num = parseInt(volume || 0);
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+    return num.toString();
+  };
+
+  const isPositive = parseFloat(stock.change_percentage?.replace('%', '') || 0) >= 0;
+
   return (
     <TouchableOpacity
-      style={[styles.card, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}
+      style={[styles.card, { 
+        backgroundColor: theme.cardBackground, 
+        borderColor: theme.border,
+        shadowColor: theme.shadowColor,
+      }]}
       onPress={onPress}
       activeOpacity={0.7}
     >
+      {/* Header */}
       <View style={styles.header}>
         <View style={styles.symbolContainer}>
           <Text style={[styles.symbol, { color: theme.text }]}>
             {stock.ticker || stock.symbol}
           </Text>
           {showWatchlistIcon && (
-            <Icon 
+            <MaterialIcons 
               name={isInWatchlist ? "bookmark" : "bookmark-border"} 
-              size={18} 
-              color={isInWatchlist ? theme.primary : theme.textSecondary}
-              style={styles.bookmarkIcon}
+              size={16} 
+              color={isInWatchlist ? theme.primary : theme.textMuted}
             />
           )}
         </View>
-        <Text style={[styles.price, { color: theme.text }]}>
-          ${formatPrice(stock.price)}
-        </Text>
+        <View style={[styles.changeIndicator, { 
+          backgroundColor: isPositive ? 
+            `${theme.gainColor}15` : 
+            `${theme.lossColor}15` 
+        }]}>
+          <MaterialIcons 
+            name={isPositive ? "trending-up" : "trending-down"} 
+            size={14} 
+            color={getChangeColor()}
+          />
+        </View>
       </View>
-      
+
+      {/* Price */}
+      <Text style={[styles.price, { color: theme.text }]}>
+        ${formatPrice(stock.price)}
+      </Text>
+
+      {/* Change */}
+      <Text style={[styles.change, { color: getChangeColor() }]}>
+        {formatChange(stock.change_percentage || stock.changePercent)}
+      </Text>
+
+      {/* Volume */}
       <View style={styles.footer}>
-        <Text style={[styles.change, { color: getChangeColor() }]}>
-          {formatChange(stock.change_percentage || stock.changePercent)}
-        </Text>
-        <Text style={[styles.volume, { color: theme.textSecondary }]}>
-          Vol: {stock.volume ? parseInt(stock.volume).toLocaleString() : 'N/A'}
+        <Text style={[styles.volume, { color: theme.textMuted }]}>
+          Vol {formatVolume(stock.volume)}
         </Text>
       </View>
     </TouchableOpacity>
@@ -64,22 +96,21 @@ const StockCard = ({ stock, onPress, showWatchlistIcon = false, isInWatchlist = 
 
 const styles = StyleSheet.create({
   card: {
-    padding: 15,
+    width: width * 0.4,
+    padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    marginHorizontal: 8,
-    marginVertical: 4,
+    marginRight: 12,
     elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   symbolContainer: {
     flexDirection: 'row',
@@ -87,26 +118,34 @@ const styles = StyleSheet.create({
   },
   symbol: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    marginRight: 8,
   },
-  bookmarkIcon: {
-    marginLeft: 8,
+  changeIndicator: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   price: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 4,
   },
   change: {
     fontSize: 14,
     fontWeight: '600',
+    marginBottom: 12,
+  },
+  footer: {
+    borderTopWidth: 1,
+    borderTopColor: '#F3F4F6',
+    paddingTop: 8,
   },
   volume: {
     fontSize: 12,
+    fontWeight: '500',
   },
 });
 

@@ -1,3 +1,4 @@
+// src/navigation/AppNavigator.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,9 +22,14 @@ const HomeStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: theme.background },
-        headerTintColor: theme.text,
-        headerTitleStyle: { fontWeight: 'bold' },
+        headerStyle: { 
+          backgroundColor: theme?.background || '#FFFFFF' 
+        },
+        headerTintColor: theme?.text || '#000000',
+        headerTitleStyle: { 
+          fontWeight: '600', // Changed from 'bold' to '600'
+          fontSize: 18,
+        },
       }}
     >
       <Stack.Screen 
@@ -51,9 +57,14 @@ const WatchlistStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: theme.background },
-        headerTintColor: theme.text,
-        headerTitleStyle: { fontWeight: 'bold' },
+        headerStyle: { 
+          backgroundColor: theme?.background || '#FFFFFF' 
+        },
+        headerTintColor: theme?.text || '#000000',
+        headerTitleStyle: { 
+          fontWeight: '600', // Changed from 'bold' to '600'
+          fontSize: 18,
+        },
       }}
     >
       <Stack.Screen 
@@ -92,11 +103,11 @@ const TabNavigator = () => {
           
           return <MaterialIcons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: theme.primary,
-        tabBarInactiveTintColor: theme.textSecondary,
+        tabBarActiveTintColor: theme?.primary || '#00D09C',
+        tabBarInactiveTintColor: theme?.textSecondary || '#757575',
         tabBarStyle: {
-          backgroundColor: theme.background,
-          borderTopColor: theme.border,
+          backgroundColor: theme?.background || '#FFFFFF',
+          borderTopColor: theme?.border || '#E0E0E0',
         },
         headerShown: false,
       })}
@@ -116,21 +127,8 @@ const TabNavigator = () => {
 };
 
 const AppNavigator = () => {
-  const { theme } = useTheme();
-
   return (
-    <NavigationContainer
-      theme={{
-        colors: {
-          primary: theme.primary,
-          background: theme.background,
-          card: theme.cardBackground,
-          text: theme.text,
-          border: theme.border,
-          notification: theme.primary,
-        },
-      }}
-    >
+    <NavigationContainer>
       <TabNavigator />
     </NavigationContainer>
   );
