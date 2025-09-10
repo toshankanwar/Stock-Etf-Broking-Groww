@@ -2,7 +2,7 @@
   "expo": {
     "name": "Stock Broking",
     "slug": "Stock-Broking",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.toshankanwar.StockBroking"
+      "package": "com.toshankanwar.StockBroking",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +33,9 @@
       "eas": {
         "projectId": "cfb289d6-7f32-45cb-bafd-0ec98d6208ce"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/cfb289d6-7f32-45cb-bafd-0ec98d6208ce"
     }
   }
 }
