@@ -87,7 +87,10 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.headerContent}>
         <View>
           <Text style={[styles.greeting, { color: theme.textMuted }]}>
-            Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'} Toshan Kanwar
+            Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'} Toshan Kanwar 
+          </Text>
+          <Text style={[styles.greeting, { color: theme.textMuted }]}>
+            Kya Haal Chaal Sab Badhiya
           </Text>
           <Text style={[styles.title, { color: theme.text }]}>Markets</Text>
         </View>

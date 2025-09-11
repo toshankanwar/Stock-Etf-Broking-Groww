@@ -21,10 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.toshankanwar.StockBroking",
-      "runtimeVersion": {
-        "policy": "appVersion"
-      }
+      "package": "com.toshankanwar.StockBroking"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +33,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/cfb289d6-7f32-45cb-bafd-0ec98d6208ce"
-    }
+    },
+    "runtimeVersion": "1.0.1"
   }
 }
